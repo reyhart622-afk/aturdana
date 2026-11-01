@@ -132,7 +132,7 @@ export const MobileMenuDrawer: React.FC = () => {
 
         <div className="flex items-center justify-between text-[11px] text-slate-400 font-bold uppercase tracking-wider pt-1">
           <span>Kategori Induk, Sub & Isi Topik</span>
-          <span className="text-emerald-400 font-mono text-[10px]">3 KATEGORI · 35 SUBKATEGORI</span>
+          <span className="text-emerald-400 font-mono text-[10px]">4 KATEGORI · 48 SUBKATEGORI</span>
         </div>
 
         {/* 3 Main Categories */}
