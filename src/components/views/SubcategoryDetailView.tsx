@@ -82,19 +82,7 @@ export const SubcategoryDetailView: React.FC = () => {
             </React.Fragment>
           ))}
         </div>
-
-        {/* Worker Dispatch Trigger (Disembunyikan dari tampilan mata pengunjung) */}
-        <div className="pt-3" style={{ display: 'none' }}>
-          <button
-            onClick={handleSyncSubcategoryWorker}
-            disabled={isWorkerLoading}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-950/60 transition-colors text-xs font-medium cursor-pointer disabled:opacity-50"
-          >
-            {isWorkerLoading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
-            <span>Sinkronkan API Key ke Cloudflare Worker ({subcategory.name})</span>
-          </button>
-        </div>
-
+        
         {syncNotice && (
           <div className="p-2.5 rounded-lg bg-emerald-950/80 border border-emerald-500/40 text-xs text-emerald-300 flex items-center gap-2 animate-fade-in font-medium">
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
