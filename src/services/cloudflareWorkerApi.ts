@@ -15,7 +15,7 @@ const STORAGE_KEY_API_KEY = 'aturdana_cloudflare_apikey';
 const STORAGE_KEY_WORKER_URL = 'aturdana_cloudflare_worker_url';
 
 export const DEFAULT_API_KEY = 'apikeycontohefjehfjadbicfi';
-export const DEFAULT_WORKER_URL = 'https://api.aturdana.id/worker/v1/market-feed';
+export const DEFAULT_WORKER_URL = 'https://engine.aturdana.id/worker/v1/market-feed';
 
 export function getStoredApiKey(): string {
   if (typeof window === 'undefined') return DEFAULT_API_KEY;
