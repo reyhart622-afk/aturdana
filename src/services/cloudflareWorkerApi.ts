@@ -90,7 +90,7 @@ export async function sendToCloudflareWorker(
       isSimulatedFallback: false,
       message: response.ok ? 'Data berhasil disinkronkan dari Cloudflare Worker.' : `Worker HTTP error: ${response.statusText}`
     };
-  } catch (err: any) {
+    } catch (err: any) {
     const endTime = performance.now();
     return {
       success: false,
@@ -106,17 +106,4 @@ export async function sendToCloudflareWorker(
     };
   }
 
-    return {
-      success: true,
-      statusCode: 200,
-      latencyMs: simulatedLatency,
-      endpoint: workerUrl,
-      requestHeaders,
-      requestPayload,
-      responsePayload: simulatedPayload,
-      timestamp: new Date().toLocaleTimeString('id-ID'),
-      isSimulatedFallback: true,
-      message: 'Worker Handshake berhasil dengan API-Key terverifikasi (Edge Proxy Standby).'
-    };
-  }
 }
