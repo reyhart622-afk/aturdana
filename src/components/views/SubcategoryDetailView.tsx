@@ -19,18 +19,32 @@ export const SubcategoryDetailView: React.FC = () => {
   const category = CATEGORIES_DATA.find((c) => c.id === selectedCategoryId) || CATEGORIES_DATA[0];
   const subcategory = category.subcategories.find((s) => s.id === selectedSubcategoryId) || category.subcategories[0];
 
-  const handleSyncSubcategoryWorker = async () => {
-    setSyncNotice('Mengirim API Key ke Cloudflare Worker...');
-    const res = await triggerWorkerAction('SYNC_SUBCATEGORY_STREAM', {
-      categorySlug: category.slug,
-      subcategorySlug: subcategory.slug,
-      itemsCount: subcategory.items.length
-    });
-    if (res.success) {
-      setSyncNotice(`Feed ${subcategory.name} berhasil disinkronkan (${res.latencyMs}ms) ke Cloudflare Edge`);
-      setTimeout(() => setSyncNotice(null), 3500);
+    useEffect(() => {
+    let isMounted = true;
+
+    async function autoSync() {
+      setSyncNotice('Menghubungkan ke Cloudflare Worker...');
+      const res = await triggerWorkerAction('SYNC_SUBCATEGORY_STREAM', {
+        categorySlug: category.slug,
+        subcategorySlug: subcategory.slug,
+        itemsCount: subcategory.items.length
+      });
+
+      if (!isMounted) return;
+
+      if (res.success) {
+        setSyncNotice(`Feed ${subcategory.name} tersinkron (${res.latencyMs}ms)`);
+        setTimeout(() => isMounted && setSyncNotice(null), 3500);
+      } else {
+        setSyncNotice(`Gagal: ${res.message}`);
+        setTimeout(() => isMounted && setSyncNotice(null), 5000);
+      }
     }
-  };
+
+    autoSync();
+    return () => { isMounted = false; };
+  }, [category.slug, subcategory.slug]);
+
 
   return (
     <div className="space-y-8 animate-fade-in">
