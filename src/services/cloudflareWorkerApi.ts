@@ -91,24 +91,20 @@ export async function sendToCloudflareWorker(
       message: response.ok ? 'Data berhasil disinkronkan dari Cloudflare Worker.' : `Worker HTTP error: ${response.statusText}`
     };
   } catch (err: any) {
-    // If worker endpoint is in development or unreachable, return high-fidelity verified fallback response
     const endTime = performance.now();
-    const simulatedLatency = Math.round(Math.max(45, endTime - startTime));
-
-    const simulatedPayload = {
-      status: 'success',
-      workerInstance: 'cf-edge-cgk-indonesia',
-      authenticatedAs: `Key:${apiKey.slice(0, 8)}...${apiKey.slice(-4)}`,
-      action,
-      data: {
-        serverTimestamp: Date.now(),
-        latency: `${simulatedLatency}ms`,
-        rateLimitRemaining: 998,
-        activeFeed: action,
-        parameters,
-        note: 'Koneksi Cloudflare Worker terverifikasi siap produksi dengan autentikasi header API-Key aktif.'
-      }
+    return {
+      success: false,
+      statusCode: 0,
+      latencyMs: Math.round(endTime - startTime),
+      endpoint: workerUrl,
+      requestHeaders,
+      requestPayload,
+      responsePayload: null,
+      timestamp: new Date().toLocaleTimeString('id-ID'),
+      isSimulatedFallback: true,
+      message: `Worker tidak terjangkau: ${err.message || 'Network error'}`
     };
+  }
 
     return {
       success: true,
